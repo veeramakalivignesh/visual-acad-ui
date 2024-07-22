@@ -1,0 +1,174 @@
+
+
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* maintains the column size ratio */
+  grid-template-rows: 1fr 1fr; /* both the CFG area and chat container will share the space equally */
+  gap: 5px;
+  height: 95vh;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.code-container {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+  background-color: #dddddd;
+  padding: 16px;
+  overflow-y: auto; /*ensures scrollbar if content overflows*/
+  border: 2px solid #393939;
+  display: flex;
+}
+
+textarea#codeInput {
+  width: 100%;
+  height: 100%; /* full height of the container */
+  background-color: #1e1e1e;
+  color: #dcdcdc;
+  border: none;
+  padding: 16px;
+  font-size: 16px;
+  font-family: 'Courier New', monospace;
+  resize: none;
+  overflow-y: auto;
+}
+
+.cfg-container {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 2; 
+  background-color: #fff5e5;
+  padding: 16px;
+  overflow-y: auto; /*ensures scrollbar if content overflows*/
+  border: 2px solid #393939;
+}
+
+/*
+chat container and messages
+*/
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  background: #d4edda; /* background color for chat area */
+  overflow-y: auto; /*ensures scrollbar if content overflows*/
+  border: 2px solid #393939;
+}
+
+.messages {
+  overflow-y: auto; /*ensures scrollbar if content overflows*/
+  height: 300px;
+  padding: 20px;
+  margin-bottom: 2px; /* gives space between messages and the input area */
+}
+
+.message {
+  display: flex;
+  background: #f5f8f6;
+  font-size: 16px;
+  font-family: 'arial';
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px; /* gives space between messages and the input area */
+}
+
+.user{
+  margin-left: 250px;
+}
+
+.assistant{
+  margin-right: 250px;
+  background: #c0cfc0;
+}
+
+/*
+chat input box and send button
+*/
+.chat-input-button-container {
+  display: flex; /* Use flexbox */
+  align-items: center; /* Align items vertically in the center */
+  background: #d4edda; /* Background color */
+  border-radius: 10px; /* Rounded corners */
+  /*overflow-y: auto; /* Scrollbar if needed */
+  padding: 10px; /* Padding around the contents */
+}
+
+.chat-input {
+  flex-grow: 1; /* Takes up all available space */
+  margin-right: 10px; /* Space between the textarea and the button */
+  margin-left: 10px;
+  border-radius: 10px; /* Rounded corners */
+  border: 2px solid #ccc; /* Border for the textarea */
+  padding: 8px; /* Padding inside the textarea */
+}
+
+.chat-button {
+  padding: 10px 20px; /* Padding inside the button */
+  border: none; /* No border */
+  background-color: #28a745; /* Background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Cursor indicates clickable */
+  border-radius: 10px; /* Rounded corners */
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.generate-button {
+  background-color:#3247a6 !important;
+}
+
+.generate-button:disabled {
+  background-color:#3247a681 !important;
+}
+
+.code-button {
+  background-color:#328fa681 !important;
+  border-radius: 5px !important;
+}
+
+.code-button:disabled {
+  background-color:#328fa6 !important;
+}
+
+.chat-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.mermaid-display {
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto; 
+}
+
+
+input#userMsg {
+  border: none;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.stylish-text {
+  font-family:Georgia, 'Times New Roman', Times, serif; /* Google Fonts, for example */
+  color: #75757585;
+  background:#fff5e5; /* Gradient background */
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size:xx-large;
+}
