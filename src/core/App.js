@@ -3,36 +3,42 @@ import React, { useState } from 'react';
 import './App.css';
 import Mermaid from './Mermaid'
 import CodeEditor from '@uiw/react-textarea-code-editor';
-import Header from './Header';
+import Header from '../Header';
+import Footer from "../Footer";
 import { TailSpin } from 'react-loader-spinner';
+import example from './example';
+import config from '../resources/config.json'
 
 function App() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState({});
   const [userInput, setUserInput] = useState('');
   const [mermaidCharts, setMermaidCharts] = useState({});
-  const [summary, setSummary] = useState('');
+  const [summary, setSummary] = useState({});
+  const [code, setCode] = useState(example);
   const [reloadCounter, setReloadCounter] = useState(0);
+  const [chatTrigger, setChatTrigger] = useState(false); 
   const [loading, setLoading] = useState(false);
   const [parsedCode, setParsedCode] = useState([])
   const [parseIndex, setParseIndex] = useState(-1)
 
   const sendMessage = () => {
     if (userInput.trim() !== '') {
-      const newMessages = [...messages, {content: userInput, role: 'user'}]
+      const newMessages = messages
+      newMessages[parseIndex] = [...messages[parseIndex], {content: userInput, role: 'user'}, {content: '...', role: 'assistant'}]
       setMessages(newMessages);
       setUserInput('');
-      getAIResponse(newMessages);
+      getAIChatResponse(newMessages);
     }
   };
 
-  const getAIResponse = async (messages) => {
+  const getAIChatResponse = async (messages) => {
     try {
-      const response = await fetch('http://localhost:8000/chat', {
+      const response = await fetch(config.server_url + '/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code: parsedCode[parseIndex]['code'], summary: summary, mermaid: mermaidCharts[parseIndex], messages: messages })
+        body: JSON.stringify({ code: parsedCode[parseIndex]['code'], summary: summary[parseIndex], mermaid: mermaidCharts[parseIndex], messages: messages[parseIndex] })
       });
 
       if (!response.ok) {
@@ -40,15 +46,23 @@ function App() {
       }
 
       const result = await response.json();
-      setMessages([...messages, {content: result.content, role: 'assistant'}])
+      const newMessages = messages
+      newMessages[parseIndex] = [...messages[parseIndex].slice(0,-1), {content: result.content, role: 'assistant'}]
+      console.log(newMessages)
+      setMessages(newMessages)
+      setChatTrigger(!chatTrigger)
     } catch (error) {
-      console.error('There was an error!', error);
+      if (error.response) {
+        alert("Server responded with a " + error.response.status + " bad response!");
+      } else {
+        alert("Server is offline!")
+      }
     }
   };
 
   const parseCode = async () => {
     try {
-      const response = await fetch('http://localhost:8000/parse', {
+      const response = await fetch(config.server_url + '/parse', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,8 +77,13 @@ function App() {
       const result = await response.json();
       console.log(result)
       setParsedCode(result.parsed_code)
+      setParseIndex(0)
     } catch (error) {
-      console.error('There was an error!', error);
+      if (error.response) {
+        alert("Server responded with a " + error.response.status + " bad response!");
+      } else {
+        alert("Server is offline!")
+      }
     }
   };
 
@@ -72,14 +91,10 @@ function App() {
     setUserInput(e.target.value);
   };
 
-  const [code, setCode] = useState(
-    `def add(a, b):\n    return a + b`
-  );
-
-  const sendCodeToServer = async () => {
+  const generateFlowchart = async () => {
     try {
       setLoading(true)
-      const response = await fetch('http://localhost:8000/flow', {
+      const response = await fetch(config.server_url + '/flow', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,12 +110,22 @@ function App() {
       const result = await response.json();
       const newMermaidCharts = mermaidCharts
       newMermaidCharts[parseIndex] = result.mermaid
-      setMermaidCharts(newMermaidCharts);  // Update the Mermaid chart data
-      setSummary(result.summary)
-      setMessages([{content: 'Here is the explanation of the code:\n\n' + result.summary, role: 'assistant'}]);
+      setMermaidCharts(newMermaidCharts);
+
+      const newSummary = summary
+      newSummary[parseIndex] = result.summary
+      setSummary(newSummary)
+
+      const newMessages = messages
+      newMessages[parseIndex] = [{content: 'Here is the explanation of the code:\n\n' + result.summary, role: 'assistant'}]
+      setMessages(newMessages);
       setReloadCounter(prev => prev + 1);
     } catch (error) {
-      console.error('There was an error!', error);
+      if (error.response) {
+        alert("Server responded with a " + error.response.status + " bad response!");
+      } else {
+        alert("Server is offline!")
+      }
     }
   };
 
@@ -115,7 +140,7 @@ function App() {
             disabled={parseIndex!==-1}
             language="python"
             placeholder="Enter code ..."
-            onChange={(evn) => {setCode(evn.target.value); setParsedCode([]); setMermaidCharts({});}}
+            onChange={(evn) => {setCode(evn.target.value); setParsedCode([]); setMermaidCharts({}); setMessages({}); setSummary({})}}
             padding={15}
             style={{
               fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
@@ -131,8 +156,8 @@ function App() {
         </div>
         <div style={{display:'flex', height:'100%', flexDirection:'column-reverse', gap:'10px', overflowY:'auto', minWidth: '120px'}}>
           <button className="chat-button generate-button" onClick={parseCode} disabled={loading || parseIndex!==-1}>Analyse</button>
-          <button className="chat-button generate-button" onClick={sendCodeToServer} disabled={loading || parseIndex===-1} style={{marginTop:'20px'}} >Generate</button>
-          <button className="chat-button code-button" onClick={()=>{setParseIndex(-1)}} disabled={parseIndex===-1}>code</button>
+          <button className="chat-button generate-button" onClick={generateFlowchart} disabled={loading || parseIndex===-1} style={{marginTop:'20px'}} >Generate</button>
+          <button className="chat-button code-button" onClick={()=>{setParseIndex(-1)}} disabled={parseIndex===-1}>Full Code</button>
           {parsedCode.map((val, index) => (
             <button className="chat-button code-button" onClick={() => setParseIndex(index)} disabled={parseIndex===index}>
               {val.name.length < 10 ? val.name : val.name.slice(0,10)+'...'}
@@ -168,18 +193,22 @@ function App() {
 
       <div className="chat-container">
         <div className="messages">
-          {messages.map((message, index) => (
-            <div className={"message " + message.role} key={index}>
-              {message.content.split('\n').map((line, index) => {
-              return (
-                  <>
-                      {line}
-                      <br />
-                  </>
-              );
-              })}
-            </div>
-          ))}
+          {(parseIndex in messages) ?
+            messages[parseIndex].map((message, index) => (
+              <div className={"message " + message.role} key={index}>
+                {message.content.split('\n').map((line, index) => {
+                return (
+                    <>
+                        {line}
+                        <br />
+                    </>
+                );
+                })}
+              </div>
+            ))
+          :
+            <></>
+          }
         </div>
         <div className="chat-input-button-container">
           <textarea  
@@ -194,6 +223,7 @@ function App() {
         </div>
       </div>
     </div>
+    <Footer/>
   </>
   );
 }

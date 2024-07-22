@@ -5,9 +5,49 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('../public/wp3165103.webp');
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}
+
+.footer span {
+  font-size: 14px;
+}
+
+/* App.css or buttons.css */
+
+.button {
+  background-color: #3d3d3d; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  margin: 2px 1px;
+  cursor: pointer;
+  border-radius: 12px; /* Rounded corners */
+  transition-duration: 0.4s; /* Animation */
+}
+
+.button:hover {
+  background-color: white; /* White background */
+  color: black; /* Black text */
+  border: 2px solid #3d3d3d; /* Green border */
+}
+

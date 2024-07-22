@@ -5,7 +5,7 @@
   grid-template-columns: 1fr 1fr; /* maintains the column size ratio */
   grid-template-rows: 1fr 1fr; /* both the CFG area and chat container will share the space equally */
   gap: 5px;
-  height: 95vh;
+  height: 88vh;
   padding: 5px;
   box-sizing: border-box;
 }
@@ -63,7 +63,7 @@ chat container and messages
 .message {
   display: flex;
   background: #f5f8f6;
-  font-size: 16px;
+  font-size: 15px;
   font-family: 'arial';
   padding: 10px;
   border-radius: 10px;
@@ -98,6 +98,7 @@ chat input box and send button
   border-radius: 10px; /* Rounded corners */
   border: 2px solid #ccc; /* Border for the textarea */
   padding: 8px; /* Padding inside the textarea */
+  height: 50px;
 }
 
 .chat-button {
@@ -109,6 +110,8 @@ chat input box and send button
   border-radius: 10px; /* Rounded corners */
   margin-left: 10px;
   margin-right: 10px;
+  font-size: 13px;
+  height: 40px;
 }
 
 .generate-button {
@@ -172,3 +175,4 @@ input#userMsg {
   display: flex;
   font-size:xx-large;
 }
+

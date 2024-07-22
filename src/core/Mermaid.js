@@ -1,11 +1,10 @@
 import mermaid from 'mermaid';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import {
   TransformWrapper,
   TransformComponent,
-  useControls,
 } from "react-zoom-pan-pinch";
 
 mermaid.initialize({
