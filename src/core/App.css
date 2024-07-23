@@ -5,7 +5,7 @@
   grid-template-columns: 1fr 1fr; /* maintains the column size ratio */
   grid-template-rows: 1fr 1fr; /* both the CFG area and chat container will share the space equally */
   gap: 5px;
-  height: 88vh;
+  height: 92vh;
   padding: 5px;
   box-sizing: border-box;
 }
@@ -55,7 +55,7 @@ chat container and messages
 
 .messages {
   overflow-y: auto; /*ensures scrollbar if content overflows*/
-  height: 300px;
+  height: 400px;
   padding: 20px;
   margin-bottom: 2px; /* gives space between messages and the input area */
 }

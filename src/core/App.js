@@ -2,12 +2,15 @@
 import React, { useState } from 'react';
 import './App.css';
 import Mermaid from './Mermaid'
-import CodeEditor from '@uiw/react-textarea-code-editor';
+import AceEditor from 'react-ace';
 import Header from '../Header';
 import Footer from "../Footer";
 import { TailSpin } from 'react-loader-spinner';
 import example from './example';
 import config from '../resources/config.json'
+
+import 'ace-builds/src-noconflict/mode-python';
+import 'ace-builds/src-noconflict/theme-tomorrow';
 
 function App() {
   const [messages, setMessages] = useState({});
@@ -18,6 +21,7 @@ function App() {
   const [reloadCounter, setReloadCounter] = useState(0);
   const [chatTrigger, setChatTrigger] = useState(false); 
   const [loading, setLoading] = useState(false);
+  const [analysing, setAnalysing] = useState(false)
   const [parsedCode, setParsedCode] = useState([])
   const [parseIndex, setParseIndex] = useState(-1)
 
@@ -62,6 +66,7 @@ function App() {
 
   const parseCode = async () => {
     try {
+      setAnalysing(true)
       const response = await fetch(config.server_url + '/parse', {
         method: 'POST',
         headers: {
@@ -69,6 +74,7 @@ function App() {
         },
         body: JSON.stringify({ code: code })
       });
+      setAnalysing(false)
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -135,22 +141,23 @@ function App() {
     <div className="main-container">
       <div className="code-container">
         <div style={{overflowY: 'auto'}}>
-          <CodeEditor
+          <AceEditor
+            mode="python"
+            theme="tomorrow"
             value={parseIndex===-1 ? code : parsedCode[parseIndex]['code']}
             disabled={parseIndex!==-1}
-            language="python"
-            placeholder="Enter code ..."
-            onChange={(evn) => {setCode(evn.target.value); setParsedCode([]); setMermaidCharts({}); setMessages({}); setSummary({})}}
-            padding={15}
+            onChange={(newCode) => {setCode(newCode); setParsedCode([]); setMermaidCharts({}); setMessages({}); setSummary({})}}
+            name="code_editor"
+            editorProps={{ $blockScrolling: true }}
+            width="700px"
+            height="400px"
+            fontSize={16}
             style={{
-              fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
-              textAlign: 'start',
-              fontSize: '16px',
-              minWidth: '630px',
-              minHeight: '330px',
-              border: 'none',
-              backgroundColor: "#dddddd",
-              resize: 'vertical',
+              backgroundColor: "#dddddd00",
+            }}
+            setOptions={{
+              showLineNumbers: false,
+              showGutter: false,
             }}
           />
         </div>
@@ -163,6 +170,20 @@ function App() {
               {val.name.length < 10 ? val.name : val.name.slice(0,10)+'...'}
             </button>
           ))}
+          { analysing?
+          <div className="loading-container" style={{display:'flex', justifyContent:'center'}}>
+              <TailSpin
+                height="40"
+                width="40"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+            </div>
+            : <></>}
         </div>
 
       </div>
