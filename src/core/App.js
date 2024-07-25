@@ -1,5 +1,5 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Mermaid from './Mermaid'
 import AceEditor from 'react-ace';
@@ -25,6 +25,21 @@ function App() {
   const [parsedCode, setParsedCode] = useState([])
   const [parseIndex, setParseIndex] = useState(-1)
 
+  useEffect(() => {
+    const healthCheckServer = async () => {
+      const response = await fetch(config.server_url + '/health', {
+        method: 'GET',
+        }).catch((err) => {
+          if (err.response) {
+              alert("Server responded with a " + err.response.status + " bad response!");
+          } else {
+              alert("Server is offline!")
+          }
+      });
+    }
+    healthCheckServer();
+  }, []); 
+  
   const sendMessage = () => {
     if (userInput.trim() !== '') {
       const newMessages = messages
