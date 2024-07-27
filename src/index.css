@@ -38,6 +38,7 @@ code {
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  height: 50px;
   font-size: 18px;
   margin: 2px 1px;
   cursor: pointer;
@@ -49,5 +50,6 @@ code {
   background-color: white; /* White background */
   color: black; /* Black text */
   border: 2px solid #3d3d3d; /* Green border */
+  height: 50px
 }
 

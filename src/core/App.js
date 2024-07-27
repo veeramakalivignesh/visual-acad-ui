@@ -160,7 +160,7 @@ function App() {
             mode="python"
             theme="tomorrow"
             value={parseIndex===-1 ? code : parsedCode[parseIndex]['code']}
-            disabled={parseIndex!==-1}
+            readOnly={parseIndex!==-1}
             onChange={(newCode) => {setCode(newCode); setParsedCode([]); setMermaidCharts({}); setMessages({}); setSummary({})}}
             name="code_editor"
             editorProps={{ $blockScrolling: true }}
@@ -219,12 +219,14 @@ function App() {
             </div>
             :
             !(parseIndex in mermaidCharts) ?
-              <p class="stylish-text">Click &nbsp; <strong> generate </strong> &nbsp; to visualize code</p>
+              <p class="stylish-text">Click &nbsp; <strong> analyse </strong> &nbsp; and &nbsp; <strong> generate </strong> &nbsp; to visualize code</p>
               :
               <div className="mermaid-display" style={{ width: '100%', height: '100%' }}>
                 <Mermaid key={reloadCounter} chart={mermaidCharts[parseIndex]} />
               </div>
+
         }
+        <p class="stylish-text" style={{ fontSize: '16px'}}>Note: The diagrams are occasionally inaccurate. Speak with the chatbot below for more accurate explanation</p>
       </div>
 
       <div className="chat-container">
