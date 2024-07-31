@@ -1,3 +1,4 @@
 {
-    "server_url": "https://visual-acad-server-eb2d87bf18c0.herokuapp.com"
+    "_server_url": "https://visual-acad-server-eb2d87bf18c0.herokuapp.com",
+    "server_url": "http://localhost:8000"
 }

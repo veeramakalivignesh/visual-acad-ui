@@ -92,16 +92,21 @@ function App() {
       setAnalysing(false)
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const error = new Error(`HTTP error! status: ${response.status}`);
+        error.status = response.status;
+        throw error;
       }
 
       const result = await response.json();
-      console.log(result)
-      setParsedCode(result.parsed_code)
-      setParseIndex(0)
+      if (result.parsed_code.length === 0) {
+        alert("The code is empty!")
+      } else{
+        setParsedCode(result.parsed_code)
+        setParseIndex(0)
+      }
     } catch (error) {
-      if (error.response) {
-        alert("Server responded with a " + error.response.status + " bad response!");
+      if (error.status) {
+        alert("Server responded with a " + error.status + " bad response!");
       } else {
         alert("Server is offline!")
       }
@@ -181,7 +186,7 @@ function App() {
           <button className="chat-button generate-button" onClick={generateFlowchart} disabled={loading || parseIndex===-1} style={{marginTop:'20px'}} >Generate</button>
           <button className="chat-button code-button" onClick={()=>{setParseIndex(-1)}} disabled={parseIndex===-1}>Full Code</button>
           {parsedCode.map((val, index) => (
-            <button className="chat-button code-button" onClick={() => setParseIndex(index)} disabled={parseIndex===index}>
+            <button className="chat-button code-button" onClick={() => {setParseIndex(index); setReloadCounter(prev => prev + 1);}} disabled={parseIndex===index}>
               {val.name.length < 10 ? val.name : val.name.slice(0,10)+'...'}
             </button>
           ))}
