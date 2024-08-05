@@ -101,6 +101,9 @@ function App() {
       if (result.parsed_code.length === 0) {
         alert("The code is empty!")
       } else{
+        if(result.success === false) {
+          alert("The input code could not be parsed into seperate functions as the parser currently only supports python. The tool may not work the best for other languages")
+        }
         setParsedCode(result.parsed_code)
         setParseIndex(0)
       }
