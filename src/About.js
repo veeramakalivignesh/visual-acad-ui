@@ -61,23 +61,47 @@ export default function About() {
                 </p>
                 <hr/>
                 <h2>Contributors</h2>
-                <p>
-                    <img src="veera.jpeg" alt="photo of veera"  style={{width:"240px", height:"240px", borderRadius:"50%"}}/> <br/>
-                    <strong>Name: </strong>Veeramakali Vignesh Manivannan <br/>
-                    <strong>Linkedin: </strong><a href="https://www.linkedin.com/in/veeramakali/">veeramakali</a> <br/>
-                    <strong>GitHub: </strong><a href="https://github.com/veeramakalivignesh">veeramakalivignesh</a> <br/>
-                    <strong>Email: </strong>mvignesh@iitdalumni.com <br/>
-                    <strong>Phone: </strong>+1-858-518-9851
-                </p>
-                <p>
-                    <img src="rohith_headshot.png" alt="photo of Rohith"  style={{width:"240px", height:"240px", borderRadius:"50%"}}/> <br/>
-                    <strong>Name: </strong>Rohith Vutukuru <br/>
-                    <strong>Linkedin: </strong><a href="https://www.linkedin.com/in/rohith-vutukuru/">veeramakali</a> <br/>
-                    <strong>GitHub: </strong><a href="https://github.com/rohith267">veeramakalivignesh</a> <br/>
-                    <strong>Email: </strong>rvutukuru@ucsd.edu <br/>
-                    <strong>Phone: </strong>+1-858-518-9756
-                </p>
+                <div style={{ display: 'flex', flexDirection: 'row', gap: '50px' }}>
+                    {/* Contributor 1 */}
+                    <div>
+                        <img 
+                            src="veera.jpeg" 
+                            alt="photo of Veera" 
+                            style={{ width: '240px', height: '240px', borderRadius: '50%' }} 
+                        /> 
+                        <br />
+                        <div style={{marginLeft: "0px",marginTop: "10px", marginBottom: "10px",alignItems:"center"}}>
+                        <strong>Name: </strong>Veeramakali Vignesh Manivannan <br />
+                        <strong>LinkedIn: </strong>
+                        <a href="https://www.linkedin.com/in/veeramakali/">veeramakali</a> <br />
+                        <strong>GitHub: </strong>
+                        <a href="https://github.com/veeramakalivignesh">veeramakalivignesh</a> <br />
+                        <strong>Email: </strong>mvignesh@iitdalumni.com <br />
+                        <strong>Phone: </strong>+1-858-518-9851
+                        </div>
+                    </div>
+
+                    {/* Contributor 2 */}
+                    <div>
+                        <img 
+                            src="rohith_headshot.png" 
+                            alt="photo of Rohith" 
+                            style={{ width: '240px', height: '240px', borderRadius: '50%' }} 
+                        /> 
+                        <br />
+                        <div style={{marginLeft: "30px",marginTop: "10px", marginBottom: "10px",alignItems:"center"}}>
+                        <strong>Name: </strong>Rohith Vutukuru <br />
+                        <strong>LinkedIn: </strong>
+                        <a href="https://www.linkedin.com/in/rohith-vutukuru/">rohith</a> <br />
+                        <strong>GitHub: </strong>
+                        <a href="https://github.com/rohith267">rohithvutukuru</a> <br />
+                        <strong>Email: </strong>rvutukuru@ucsd.edu <br />
+                        <strong>Phone: </strong>+1-858-518-9756
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <Footer/>
         </>
     );
