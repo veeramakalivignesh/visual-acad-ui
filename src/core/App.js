@@ -263,6 +263,12 @@ function App() {
             placeholder="Type a message..."
             value={userInput}
             onChange={handleUserInputChange}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevents the default behavior of Enter key (new line)
+                sendMessage();
+              }
+            }}
             className="chat-input"
           />
           <button className="chat-button" onClick={sendMessage}>Send</button>
