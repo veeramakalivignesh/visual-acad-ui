@@ -69,6 +69,14 @@ export default function About() {
                     <strong>Email: </strong>mvignesh@iitdalumni.com <br/>
                     <strong>Phone: </strong>+1-858-518-9851
                 </p>
+                <p>
+                    <img src="rohith_headshot.png" alt="photo of Rohith"  style={{width:"240px", height:"240px", borderRadius:"50%"}}/> <br/>
+                    <strong>Name: </strong>Rohith Vutukuru <br/>
+                    <strong>Linkedin: </strong><a href="https://www.linkedin.com/in/rohith-vutukuru/">veeramakali</a> <br/>
+                    <strong>GitHub: </strong><a href="https://github.com/rohith267">veeramakalivignesh</a> <br/>
+                    <strong>Email: </strong>rvutukuru@ucsd.edu <br/>
+                    <strong>Phone: </strong>+1-858-518-9756
+                </p>
             </div>
             <Footer/>
         </>
